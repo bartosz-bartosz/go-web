@@ -1,17 +1,16 @@
-package main
+package handlers
 
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"net/http"
-)
 
-const portNumber = ":8080"
+	"github.com/bartosz-bartosz/go-web/pkg/render"
+)
 
 // Home is the home page handler
 func Home(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "home.html")
+	render.RenderTemplate(w, "home.html")
 }
 
 // About is the about page handler
@@ -29,15 +28,6 @@ func Divide(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, fmt.Sprintf("Result is %f", result))
 }
 
-func renderTemplate(w http.ResponseWriter, tmpl string) {
-	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl)
-	err := parsedTemplate.Execute(w, nil)
-	if err != nil {
-		fmt.Println("error parsing template:", err)
-		return
-	}
-}
-
 // addValues adds two integers and returns the sum
 func addValues(x, y int) int {
 	return x + y
@@ -49,15 +39,4 @@ func divideValues(x, y float32) (float32, error) {
 		return 0, err
 	}
 	return x / y, nil
-}
-
-// main is the main application function
-func main() {
-	http.HandleFunc("/", Home)
-	http.HandleFunc("/about", About)
-	http.HandleFunc("/divide", Divide)
-
-	fmt.Println(fmt.Sprintf("Starting app on port %s", portNumber))
-	_ = http.ListenAndServe(portNumber, nil)
-
 }
