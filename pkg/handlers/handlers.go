@@ -18,6 +18,10 @@ func About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.html")
 }
 
+func Test(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "test.html")
+}
+
 func Divide(w http.ResponseWriter, r *http.Request) {
 	result, err := divideValues(2.0, 0.0)
 	if err != nil {
