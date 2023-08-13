@@ -1,5 +1,14 @@
-{{template "base" .}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test page</title>
+</head>
+<body>
+    <h1> Test </h1>
 
-{{define "content"}}
-    <h1>Test</h1>
-{{end}}
+    <p>This is dynamic value coming from handler: {{index .StringMap "test"}}</p>
+</body>
+</html>

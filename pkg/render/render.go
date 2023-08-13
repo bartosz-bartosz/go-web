@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/bartosz-bartosz/go-web/pkg/config"
+	"github.com/bartosz-bartosz/go-web/pkg/models"
 )
 
 var app *config.AppConfig
@@ -17,21 +18,31 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
 
-	// Get the template cache from app config
-	templateCache := app.TemplateCache
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+
+	var templateCache map[string]*template.Template
+
+	if app.UseCache {
+		templateCache = app.TemplateCache
+	} else {
+		templateCache, _ = CreateTemplateCache()
+	}
 
 	// Get template from cache
 	template, ok := templateCache[tmpl]
-	log.Println(template)
 	if !ok {
 		log.Fatal("Template not found:", tmpl)
 	}
 
 	buf := new(bytes.Buffer)
 
-	_ = template.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	_ = template.Execute(buf, td)
 
 	// Render the template
 	_, err := buf.WriteTo(w)
@@ -72,7 +83,6 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		myCache[fileName] = templateSet
-		log.Println(myCache)
 	}
 
 	return myCache, nil
