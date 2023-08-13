@@ -15,8 +15,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 // About is the about page handler
 func About(w http.ResponseWriter, r *http.Request) {
-	sum := addValues(2, 2)
-	fmt.Fprintf(w, fmt.Sprintf("About page. Sum is %d", sum))
+	render.RenderTemplate(w, "about.html")
 }
 
 func Divide(w http.ResponseWriter, r *http.Request) {
