@@ -27,7 +27,6 @@ func main() {
 	http.HandleFunc("/home", handlers.Home)
 	http.HandleFunc("/about", handlers.About)
 	http.HandleFunc("/test", handlers.Test)
-	http.HandleFunc("/divide", handlers.Divide)
 
 	fmt.Println(fmt.Sprintf("Starting app on port %s", portNumber))
 	_ = http.ListenAndServe(portNumber, nil)
